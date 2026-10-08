@@ -917,65 +917,83 @@ function buildPDF({ origCompany, origStreet, origAddr2, origCity, origState, ori
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'pt', format: 'letter' });
 
-  const PW = 612, PH = 792, M = 25;
+  // jsPDF uses top-left origin: x increases right, y increases DOWN.
+  const PW = 612, PH = 792;
+  const M  = 25;   // outer margin
+  const M2 = 23;   // inner margin (double border)
   const cGreen = [219, 221, 204];
-  const cGray  = [48, 48, 48];
+  const cGray  = [48,  48,  48];
 
-  // Double border
-  doc.setLineWidth(0.5); doc.setDrawColor(...cGreen);
-  doc.rect(M, M, PW - 2*M, PH - 2*M);
+  // ── Double border ──
+  doc.setLineWidth(0.5);
+  doc.setDrawColor(...cGreen);
+  doc.rect(M,  M,  PW - 2*M,  PH - 2*M);
   doc.setLineWidth(1.5);
-  doc.rect(M-2, M-2, PW - 2*(M-2), PH - 2*(M-2));
+  doc.rect(M2, M2, PW - 2*M2, PH - 2*M2);
 
-  // ── Origin / sender block ──
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(...cGray);
-  doc.text(origCompany, 50, 690);
-  doc.setFont('courier', 'normal'); doc.setFontSize(7);
-  doc.text(origStreet, 50, 675);
-  if (origAddr2) {
-    doc.text(origAddr2, 50, 660);
-    doc.text(`${origCity}, ${origState} ${origZip}`, 50, 645);
-  } else {
-    doc.text(`${origCity}, ${origState} ${origZip}`, 50, 660);
-  }
+  // ── Header block: y increases downward from top ──
+  // Left column: origin/sender info  (x=50, starting at y=40)
+  let ly = 40; // left-side y cursor
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8);
+  doc.setTextColor(...cGray);
+  doc.text(origCompany, 50, ly); ly += 13;
 
-  // ── Destination block ──
-  doc.setFont('times', 'normal'); doc.setFontSize(7); doc.setTextColor(80, 80, 80);
-  doc.text('SHIP TO:', 300, 690);
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...cGray);
-  doc.text(coname || '—', 340, 690);
-  doc.setFontSize(11);
-  doc.text(street || '—', 340, 675);
-  let addrY = 645;
-  if (addr2) { doc.text(addr2, 340, 660); } else { addrY = 660; }
-  // City / region / postal line
-  const cityParts = [city, region].filter(Boolean).join(', ') + (postal ? ' ' + postal : '');
-  doc.text(cityParts || '—', 340, addrY);
-  // Country line (always shown for international, omitted for domestic USA)
-  if (isIntl && country) {
-    doc.text(country.toUpperCase(), 340, addrY - 15);
-  }
+  doc.setFont('courier', 'normal');
+  doc.setFontSize(7);
+  doc.setTextColor(80, 80, 80);
+  doc.text(origStreet, 50, ly); ly += 11;
+  if (origAddr2) { doc.text(origAddr2, 50, ly); ly += 11; }
+  doc.text(`${origCity}, ${origState} ${origZip}`, 50, ly); ly += 11;
+  doc.text('619-483-3448', 50, ly);
 
-  // Shipping date + international flag
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(80, 80, 80);
-  doc.text(`Shipping Date: ${fmtDate(shipdate) || '—'}`, 450, 735);
+  // Right column: shipping date (top-right area)
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7);
+  doc.setTextColor(80, 80, 80);
+  doc.text(`Shipping Date: ${fmtDate(shipdate) || '—'}`, PW - 50, 40, { align: 'right' });
   if (isIntl) {
     doc.setTextColor(...cGreen);
-    doc.text('INTERNATIONAL SHIPMENT', 450, 725);
-    doc.setTextColor(80, 80, 80);
+    doc.setFont('helvetica', 'bold');
+    doc.text('INTERNATIONAL SHIPMENT', PW - 50, 52, { align: 'right' });
   }
 
-  // Divider + title
-  doc.setLineWidth(0.5); doc.setDrawColor(...cGreen);
-  doc.line(50, 630, PW - 50, 630);
-  doc.setFont('times', 'bold'); doc.setFontSize(16); doc.setTextColor(...cGreen);
-  doc.text('PACKING LIST', PW / 2, 618, { align: 'center' });
+  // Ship-to block: right-centre (x=300, starting at y=40)
+  let ry = 40;
+  doc.setFont('times', 'normal');
+  doc.setFontSize(7);
+  doc.setTextColor(100, 100, 100);
+  doc.text('SHIP TO:', 300, ry); ry += 14;
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.setTextColor(...cGray);
+  doc.text(coname || '—', 300, ry); ry += 14;
+
+  doc.setFontSize(9);
+  doc.text(street || '—', 300, ry); ry += 12;
+  if (addr2) { doc.text(addr2, 300, ry); ry += 12; }
+  const cityParts = [city, region].filter(Boolean).join(', ') + (postal ? ' ' + postal : '');
+  doc.text(cityParts || '—', 300, ry); ry += 12;
+  if (isIntl && country) { doc.text(country.toUpperCase(), 300, ry); ry += 12; }
+
+  // ── Divider line + PACKING LIST title ──
+  const headerBottom = Math.max(ly, ry) + 16;  // whichever column is taller + padding
+  doc.setLineWidth(0.5);
+  doc.setDrawColor(...cGreen);
+  doc.line(50, headerBottom, PW - 50, headerBottom);
+
+  doc.setFont('times', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(...cGreen);
+  doc.text('PACKING LIST', PW / 2, headerBottom + 14, { align: 'center' });
 
   // ── Order details table ──
-  let cursorY = 610;
+  let cursorY = headerBottom + 24;
+
   if (ponum || podate) {
     doc.autoTable({
-      startY: cursorY - 50,
+      startY: cursorY,
       head: [['Purchase Order Number', 'Order Date']],
       body: [[ponum || '—', fmtDate(podate) || '—']],
       margin: { left: 50, right: 50 },
@@ -984,9 +1002,7 @@ function buildPDF({ origCompany, origStreet, origAddr2, origCity, origState, ori
       bodyStyles: { fontSize: 8, halign: 'center', textColor: cGray },
       tableLineColor: cGray, tableLineWidth: 0.3, theme: 'grid',
     });
-    cursorY = doc.lastAutoTable.finalY + 12;
-  } else {
-    cursorY -= 30;
+    cursorY = doc.lastAutoTable.finalY + 10;
   }
 
   // ── Products table ──
@@ -1017,10 +1033,13 @@ function buildPDF({ origCompany, origStreet, origAddr2, origCity, origState, ori
     tableLineColor: cGray, tableLineWidth: 0.3, theme: 'grid',
   });
 
-  // ── Signature section ──
+  // ── Signature section (pinned near bottom) ──
   if (includeSig) {
+    const sigY = PH - 100;
+    // Only draw if it won't overlap the products table
+    const prodBottom = doc.lastAutoTable.finalY;
     doc.autoTable({
-      startY: PH - 100,
+      startY: Math.max(sigY, prodBottom + 20),
       head: [['Received By', 'Signature', 'Received Date']],
       body: [['\n\n', '\n\n', '\n\n']],
       margin: { left: 50, right: 50 },

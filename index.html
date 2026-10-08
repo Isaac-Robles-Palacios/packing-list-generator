@@ -24,6 +24,9 @@
     --disabled-text: #aaa;
     --error: #c0392b;
     --success: #2e7d32;
+    --warn-bg: #fffbea;
+    --warn-border: #e6c84a;
+    --warn-text: #7a5c00;
     --mono: 'DM Mono', monospace;
     --sans: 'DM Sans', sans-serif;
     --radius: 6px;
@@ -39,10 +42,7 @@
     padding: 32px 16px 64px;
   }
 
-  .page {
-    max-width: 860px;
-    margin: 0 auto;
-  }
+  .page { max-width: 860px; margin: 0 auto; }
 
   /* Header */
   .app-header {
@@ -84,25 +84,19 @@
     text-transform: uppercase;
     color: var(--accent);
     border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
   }
-  .section-body {
-    padding: 20px;
-  }
+  .section-body { padding: 20px; }
 
   /* Form grid */
-  .form-grid {
-    display: grid;
-    gap: 16px;
-  }
+  .form-grid { display: grid; gap: 16px; }
   .form-grid-2 { grid-template-columns: 1fr 1fr; }
   .form-grid-3 { grid-template-columns: 2fr 1fr 1fr; }
-  .form-grid-4 { grid-template-columns: 2fr 1fr 1fr 1fr; }
 
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
+  .field { display: flex; flex-direction: column; gap: 5px; }
   label {
     font-family: var(--mono);
     font-size: 0.65rem;
@@ -133,12 +127,81 @@
     cursor: not-allowed;
   }
 
-  /* Product rows */
-  .product-list {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  /* CSV Import */
+  .csv-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    position: relative;
   }
+  .csv-zone:hover, .csv-zone.drag-over {
+    border-color: var(--accent);
+    background: #f0f4ef;
+  }
+  .csv-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+  .csv-icon {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+  .csv-zone-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+  .csv-zone-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  .csv-hint {
+    margin-top: 14px;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    background: var(--tag-bg);
+    border-radius: 4px;
+    padding: 8px 12px;
+    text-align: left;
+    display: inline-block;
+  }
+
+  .csv-result {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    font-size: 0.82rem;
+    display: none;
+  }
+  .csv-result.success {
+    background: #eef5ee;
+    border: 1px solid #b2d1b2;
+    color: var(--success);
+    display: block;
+  }
+  .csv-result.warn {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    color: var(--warn-text);
+    display: block;
+  }
+  .csv-result ul {
+    margin-top: 6px;
+    padding-left: 18px;
+  }
+  .csv-result li { margin-top: 3px; }
+
+  /* Product rows */
+  .product-list { display: flex; flex-direction: column; gap: 4px; }
   .product-col-headers {
     display: grid;
     grid-template-columns: 1fr 80px 1fr;
@@ -163,10 +226,7 @@
     transition: background 0.1s, border-color 0.1s;
   }
   .product-row:hover { background: var(--tag-bg); }
-  .product-row.active {
-    background: #f0f4ef;
-    border-color: #c3d4c2;
-  }
+  .product-row.active { background: #f0f4ef; border-color: #c3d4c2; }
 
   .product-check {
     display: flex;
@@ -176,16 +236,11 @@
     user-select: none;
   }
   .product-check input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
+    width: 16px; height: 16px;
     accent-color: var(--accent);
-    cursor: pointer;
-    flex-shrink: 0;
+    cursor: pointer; flex-shrink: 0;
   }
-  .product-check-label {
-    font-size: 0.875rem;
-    line-height: 1.3;
-  }
+  .product-check-label { font-size: 0.875rem; line-height: 1.3; }
   .product-code {
     display: block;
     font-family: var(--mono);
@@ -193,37 +248,17 @@
     color: var(--text-muted);
     margin-top: 1px;
   }
-
-  .qty-input {
-    width: 80px;
-    text-align: center;
-    font-family: var(--mono);
-  }
-
-  .serial-input {
-    font-size: 0.82rem;
-    font-family: var(--mono);
-  }
+  .qty-input { width: 80px; text-align: center; font-family: var(--mono); }
+  .serial-input { font-size: 0.82rem; font-family: var(--mono); }
 
   /* Options row */
-  .options-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
+  .options-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 0.875rem;
-    user-select: none;
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer; font-size: 0.875rem; user-select: none;
   }
   .checkbox-label input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--accent);
+    width: 16px; height: 16px; accent-color: var(--accent);
   }
 
   /* Buttons */
@@ -239,17 +274,15 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    white-space: nowrap;
   }
   .btn:active { transform: scale(0.98); }
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-  }
+  .btn-primary { background: var(--accent); color: #fff; }
   .btn-primary:hover { background: var(--accent-hover); }
-  .btn-primary:disabled {
-    background: #aaa;
-    cursor: not-allowed;
-    transform: none;
+  .btn-sm {
+    font-size: 0.78rem;
+    padding: 6px 14px;
+    font-weight: 500;
   }
   .btn-outline {
     background: transparent;
@@ -258,23 +291,12 @@
   }
   .btn-outline:hover { background: var(--tag-bg); }
 
-  .actions-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
+  .actions-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .file-name-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-    min-width: 200px;
+    display: flex; align-items: center; gap: 8px;
+    flex: 1; min-width: 200px;
   }
-  .file-name-group label {
-    white-space: nowrap;
-  }
+  .file-name-group label { white-space: nowrap; }
   .file-ext {
     font-family: var(--mono);
     font-size: 0.85rem;
@@ -285,8 +307,7 @@
   /* Toast */
   #toast {
     position: fixed;
-    bottom: 28px;
-    right: 28px;
+    bottom: 28px; right: 28px;
     background: var(--success);
     color: #fff;
     padding: 12px 20px;
@@ -297,26 +318,17 @@
     pointer-events: none;
     transition: opacity 0.25s;
     z-index: 999;
-    max-width: 320px;
+    max-width: 340px;
   }
   #toast.error { background: var(--error); }
   #toast.show { opacity: 1; pointer-events: auto; }
 
-  /* Divider */
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 16px 0;
-  }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
 
   @media (max-width: 600px) {
-    .form-grid-2, .form-grid-3, .form-grid-4 {
-      grid-template-columns: 1fr;
-    }
+    .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
     .product-col-headers { display: none; }
-    .product-row {
-      grid-template-columns: 1fr;
-    }
+    .product-row { grid-template-columns: 1fr; }
     .qty-input { width: 100%; }
   }
 </style>
@@ -387,9 +399,36 @@
     </div>
   </div>
 
+  <!-- CSV Import -->
+  <div class="section">
+    <div class="section-header">
+      <span>Import from CSV</span>
+      <button class="btn btn-outline btn-sm" onclick="downloadTemplate()">⬇ Download Template</button>
+    </div>
+    <div class="section-body">
+      <div class="csv-zone" id="csvZone"
+           ondragover="event.preventDefault();this.classList.add('drag-over')"
+           ondragleave="this.classList.remove('drag-over')"
+           ondrop="handleDrop(event)">
+        <input type="file" id="csvFile" accept=".csv" onchange="handleCsvFile(this.files[0])" />
+        <div class="csv-icon">📄</div>
+        <div class="csv-zone-title">Drop a CSV file here, or click to browse</div>
+        <div class="csv-zone-sub">Automatically checks products and fills in serial numbers</div>
+        <div class="csv-hint">
+          Required columns: <strong>Product Name</strong> &nbsp;|&nbsp; <strong>Serial Number</strong><br>
+          One row per serial number. Product Name must match a known product name or product code.
+        </div>
+      </div>
+      <div id="csvResult" class="csv-result"></div>
+    </div>
+  </div>
+
   <!-- Shipping Contents -->
   <div class="section">
-    <div class="section-header">Shipping Contents</div>
+    <div class="section-header">
+      <span>Shipping Contents</span>
+      <button class="btn btn-outline btn-sm" onclick="clearProducts()">Clear selections</button>
+    </div>
     <div class="section-body">
       <div class="product-col-headers">
         <span>Product</span>
@@ -402,7 +441,7 @@
 
   <!-- Save & Generate -->
   <div class="section">
-    <div class="section-header">Save & Generate</div>
+    <div class="section-header">Save &amp; Generate</div>
     <div class="section-body">
       <div class="options-row" style="margin-bottom:16px;">
         <label class="checkbox-label">
@@ -427,26 +466,123 @@
   </div>
 
 </div>
-
 <div id="toast"></div>
 
 <script>
+// ─── Product catalogue ────────────────────────────────────────────────────────
+// Add or remove products here. Each entry needs:
+//   code        – internal key (unique, no spaces)
+//   productCode – the code printed on the PDF
+//   shortName   – shown in the UI checkbox list
+//   fullName    – shown in the PDF description column
+//   aliases     – extra strings a CSV "Product Name" might use (lowercase)
 const PRODUCTS = [
-  { code: "001", productCode: "EVSE-B-P1-T1C-H1 A080", shortName: "PowerPort 2.2 (1PH)", fullName: "PowerPort 2.2 Single Phase" },
-  { code: "002", productCode: "EVSE-B-P3-T2C-H1 A063", shortName: "PowerPort 2.2 (3PH)", fullName: "PowerPort 2.2 Three Phase" },
-  { code: "003", productCode: "SM-Pedestal", shortName: "Single Mount Pedestal", fullName: "Single Mount Pedestal - for one PowerPort" },
-  { code: "004", productCode: "DM-Pedestal", shortName: "Dual Mount Pedestal", fullName: "Dual Mount Pedestal - for two PowerPorts" },
-  { code: "005", productCode: "CBL-NV-PP-J1772-25", shortName: "J1772 Cable (25ft)", fullName: "J1772 Charging Hose 25 ft." },
-  { code: "006", productCode: "UNS-NSM2-loco", shortName: "Loco M2 Wifi (Single 2.4GHz)", fullName: "2.4GHz Single Port WIFI Antenna + POE Adapter" },
-  { code: "007", productCode: "UNS-NSM5-loco", shortName: "Loco M5 Wifi (Single 5.0GHz)", fullName: "5.0GHz Single Port WIFI Antenna + POE Adapter" },
-  { code: "008", productCode: "UNS-NSM2", shortName: "NSM2 Wifi (Dual 2.4GHz)", fullName: "2.4GHz Dual Port WIFI Antenna + POE Adapter" },
-  { code: "009", productCode: "UNS-NSM5", shortName: "NSM5 Wifi (Dual 5.0GHz)", fullName: "5.0GHz Dual Port WIFI Antenna + POE Adapter" },
-  { code: "010", productCode: "PHAROS-CPE-210", shortName: "TP-Link 210 (Single)", fullName: "2.4GHz Single Port WIFI Antenna" },
-  { code: "011", productCode: "WIFI-MOUNT", shortName: "Wifi Mount", fullName: "Wall/Pedestal Mounting Kit for WIFI Antenna" },
-  { code: "012", productCode: "4G-LTE-COMMS-BOX", shortName: "4G LTE Modem", fullName: "4G LTE Modem with SIM Card" },
+  // EV Chargers
+  {
+    code: "001", productCode: "EVSE-B-P1-T1C-H1 A080",
+    shortName: "PowerPort 2.2 (1PH)", fullName: "PowerPort 2.2 Single Phase",
+    aliases: ["powerport 2.2 single phase", "powerport 2.2 1ph", "evse-b-p1-t1c-h1 a080"]
+  },
+  {
+    code: "002", productCode: "EVSE-B-P3-T2C-H1 A063",
+    shortName: "PowerPort 2.2 (3PH)", fullName: "PowerPort 2.2 Three Phase",
+    aliases: ["powerport 2.2 three phase", "powerport 2.2 3ph", "evse-b-p3-t2c-h1 a063"]
+  },
+  // Pedestals
+  {
+    code: "003", productCode: "SM-Pedestal",
+    shortName: "Single Mount Pedestal", fullName: "Single Mount Pedestal - for one PowerPort",
+    aliases: ["single mount pedestal", "sm-pedestal", "sm pedestal"]
+  },
+  {
+    code: "004", productCode: "DM-Pedestal",
+    shortName: "Dual Mount Pedestal", fullName: "Dual Mount Pedestal - for two PowerPorts",
+    aliases: ["dual mount pedestal", "dm-pedestal", "dm pedestal"]
+  },
+  // Cables
+  {
+    code: "005", productCode: "CBL-NV-PP-J1772-25",
+    shortName: "J1772 Cable (25ft)", fullName: "J1772 Charging Hose 25 ft.",
+    aliases: ["j1772 cable 25ft", "j1772 charging hose 25 ft", "j1772 25ft", "cbl-nv-pp-j1772-25"]
+  },
+  {
+    code: "013", productCode: "CBL-NV-PP-J1772-15",
+    shortName: "J1772 Cable (15ft)", fullName: "J1772 Charging Hose 15 ft.",
+    aliases: ["j1772 cable 15ft", "j1772 charging hose 15 ft", "j1772 15ft", "cbl-nv-pp-j1772-15"]
+  },
+  // WiFi – Loco series
+  {
+    code: "006", productCode: "UNS-NSM2-loco",
+    shortName: "Loco M2 Wifi (Single 2.4GHz)", fullName: "2.4GHz Single Port WIFI Antenna + POE Adapter",
+    aliases: ["loco m2 wifi", "loco m2", "uns-nsm2-loco", "2.4ghz single port wifi antenna"]
+  },
+  {
+    code: "007", productCode: "UNS-NSM5-loco",
+    shortName: "Loco M5 Wifi (Single 5.0GHz)", fullName: "5.0GHz Single Port WIFI Antenna + POE Adapter",
+    aliases: ["loco m5 wifi", "loco m5", "uns-nsm5-loco", "5.0ghz single port wifi antenna"]
+  },
+  // WiFi – NSM series
+  {
+    code: "008", productCode: "UNS-NSM2",
+    shortName: "NSM2 Wifi (Dual 2.4GHz)", fullName: "2.4GHz Dual Port WIFI Antenna + POE Adapter",
+    aliases: ["nsm2 wifi", "nsm2", "uns-nsm2", "2.4ghz dual port wifi antenna"]
+  },
+  {
+    code: "009", productCode: "UNS-NSM5",
+    shortName: "NSM5 Wifi (Dual 5.0GHz)", fullName: "5.0GHz Dual Port WIFI Antenna + POE Adapter",
+    aliases: ["nsm5 wifi", "nsm5", "uns-nsm5", "5.0ghz dual port wifi antenna"]
+  },
+  // TP-Link
+  {
+    code: "010", productCode: "PHAROS-CPE-210",
+    shortName: "TP-Link 210 (Single)", fullName: "2.4GHz Single Port WIFI Antenna",
+    aliases: ["tp-link 210", "pharos cpe 210", "pharos-cpe-210", "tp link 210"]
+  },
+  {
+    code: "014", productCode: "PHAROS-CPE-510",
+    shortName: "TP-Link 510 (Single 5GHz)", fullName: "5GHz Single Port WIFI Antenna",
+    aliases: ["tp-link 510", "pharos cpe 510", "pharos-cpe-510", "tp link 510"]
+  },
+  // Mounts & Accessories
+  {
+    code: "011", productCode: "WIFI-MOUNT",
+    shortName: "Wifi Mount", fullName: "Wall/Pedestal Mounting Kit for WIFI Antenna",
+    aliases: ["wifi mount", "wifi-mount", "mounting kit", "antenna mount"]
+  },
+  // Comms
+  {
+    code: "012", productCode: "4G-LTE-COMMS-BOX",
+    shortName: "4G LTE Modem", fullName: "4G LTE Modem with SIM Card",
+    aliases: ["4g lte modem", "4g-lte-comms-box", "lte modem", "4g modem"]
+  },
+  {
+    code: "015", productCode: "5G-COMMS-BOX",
+    shortName: "5G Modem", fullName: "5G Modem with SIM Card",
+    aliases: ["5g modem", "5g-comms-box", "5g communications box"]
+  },
+  // Power accessories
+  {
+    code: "016", productCode: "POE-INJECTOR-48V",
+    shortName: "POE Injector (48V)", fullName: "48V POE Injector",
+    aliases: ["poe injector 48v", "poe injector", "48v poe injector", "poe-injector-48v"]
+  },
+  {
+    code: "017", productCode: "SURGE-PROTECTOR-DIN",
+    shortName: "DIN Rail Surge Protector", fullName: "DIN Rail Surge Protector",
+    aliases: ["din rail surge protector", "surge protector din", "surge-protector-din", "surge protector"]
+  },
 ];
 
-// Build product rows
+// Build a lookup map: lowercased alias → product code
+const ALIAS_MAP = {};
+PRODUCTS.forEach(p => {
+  // index by short name, full name, product code, and explicit aliases
+  [p.shortName, p.fullName, p.productCode, ...p.aliases].forEach(alias => {
+    ALIAS_MAP[alias.toLowerCase().trim()] = p.code;
+  });
+});
+
+// ─── Build product rows ───────────────────────────────────────────────────────
 const list = document.getElementById('productList');
 PRODUCTS.forEach(p => {
   const row = document.createElement('div');
@@ -467,11 +603,12 @@ PRODUCTS.forEach(p => {
   list.appendChild(row);
 });
 
+// ─── Row helpers ──────────────────────────────────────────────────────────────
 function toggleRow(code) {
   const checked = document.getElementById(`chk-${code}`).checked;
   const row = document.getElementById(`row-${code}`);
-  const qty = document.getElementById(`qty-${code}`);
-  const ser = document.getElementById(`ser-${code}`);
+  const qty  = document.getElementById(`qty-${code}`);
+  const ser  = document.getElementById(`ser-${code}`);
   qty.disabled = !checked;
   ser.disabled = !checked;
   row.classList.toggle('active', checked);
@@ -479,23 +616,146 @@ function toggleRow(code) {
   if (checked) qty.focus();
 }
 
-function clearAll() {
+function clearProducts() {
   PRODUCTS.forEach(p => {
     document.getElementById(`chk-${p.code}`).checked = false;
     toggleRow(p.code);
   });
-  ['coname','shipdate','street','addr2','city','state','zip','ponum','podate','fileName'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
+  document.getElementById('csvResult').className = 'csv-result';
+  document.getElementById('csvFile').value = '';
+}
+
+function clearAll() {
+  clearProducts();
+  ['coname','shipdate','street','addr2','city','state','zip','ponum','podate','fileName']
+    .forEach(id => { document.getElementById(id).value = ''; });
   document.getElementById('includeSig').checked = false;
 }
 
+// ─── CSV Import ───────────────────────────────────────────────────────────────
+function downloadTemplate() {
+  const header = 'Product Name,Serial Number';
+  const examples = PRODUCTS.slice(0, 3).map(p => `${p.shortName},SN-EXAMPLE-001`).join('\n');
+  const blob = new Blob([header + '\n' + examples], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'packing_list_template.csv';
+  a.click();
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('csvZone').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) handleCsvFile(file);
+}
+
+function handleCsvFile(file) {
+  if (!file || !file.name.toLowerCase().endsWith('.csv')) {
+    showToast('Please select a .csv file.', true);
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => parseCSV(e.target.result);
+  reader.readAsText(file);
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  if (lines.length < 2) {
+    showCsvResult('warn', 'The CSV file appears to be empty.');
+    return;
+  }
+
+  // Detect header row
+  const rawHeaders = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/^"|"$/g, ''));
+  const productCol = rawHeaders.findIndex(h => h.includes('product'));
+  const serialCol  = rawHeaders.findIndex(h => h.includes('serial'));
+
+  if (productCol === -1 || serialCol === -1) {
+    showCsvResult('warn',
+      'Could not find required columns. Make sure the CSV has a <strong>Product Name</strong> column and a <strong>Serial Number</strong> column.');
+    return;
+  }
+
+  // Group serials by matched product code
+  const matched   = {};   // code → [serials]
+  const unmatched = [];   // rows we couldn't recognise
+
+  for (let i = 1; i < lines.length; i++) {
+    const cols = splitCSVLine(lines[i]);
+    const rawProduct = (cols[productCol] || '').trim();
+    const serial     = (cols[serialCol]  || '').trim();
+    if (!rawProduct) continue;
+
+    const code = ALIAS_MAP[rawProduct.toLowerCase()];
+    if (!code) {
+      unmatched.push(rawProduct);
+      continue;
+    }
+    if (!matched[code]) matched[code] = [];
+    if (serial) matched[code].push(serial);
+  }
+
+  if (Object.keys(matched).length === 0 && unmatched.length === 0) {
+    showCsvResult('warn', 'No data rows found in the CSV.');
+    return;
+  }
+
+  // Apply to form
+  // First clear existing selections so the import is the source of truth
+  clearProducts();
+
+  Object.entries(matched).forEach(([code, serials]) => {
+    const chk = document.getElementById(`chk-${code}`);
+    if (!chk) return;
+    chk.checked = true;
+    toggleRow(code);
+    document.getElementById(`qty-${code}`).value = serials.length || 1;
+    document.getElementById(`ser-${code}`).value = serials.join(', ');
+  });
+
+  // Build result message
+  const matchedNames = Object.keys(matched).map(c => PRODUCTS.find(p => p.code === c)?.shortName);
+  let html = `<strong>✓ Import complete.</strong> ${matchedNames.length} product type(s) loaded.`;
+  if (unmatched.length) {
+    const unique = [...new Set(unmatched)];
+    html += `<br><br><strong>⚠ Unrecognised product names (skipped):</strong>
+      <ul>${unique.map(u => `<li>${u}</li>`).join('')}</ul>
+      Check spelling or add the product to the catalogue.`;
+    showCsvResult('warn', html);
+  } else {
+    showCsvResult('success', html);
+  }
+}
+
+// Handles quoted CSV fields
+function splitCSVLine(line) {
+  const result = [];
+  let cur = '', inQuote = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') { inQuote = !inQuote; }
+    else if (ch === ',' && !inQuote) { result.push(cur); cur = ''; }
+    else cur += ch;
+  }
+  result.push(cur);
+  return result;
+}
+
+function showCsvResult(type, html) {
+  const el = document.getElementById('csvResult');
+  el.innerHTML = html;
+  el.className = `csv-result ${type}`;
+}
+
+// ─── Toast ────────────────────────────────────────────────────────────────────
 function showToast(msg, isError = false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'show' + (isError ? ' error' : '');
   clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.className = '', 3000);
+  t._timer = setTimeout(() => t.className = '', 3500);
 }
 
 function fmtDate(val) {
@@ -504,19 +764,19 @@ function fmtDate(val) {
   return `${m}/${d}/${y}`;
 }
 
+// ─── Generate PDF ─────────────────────────────────────────────────────────────
 function generate() {
-  // Collect selected products
   const items = [];
   for (const p of PRODUCTS) {
     if (!document.getElementById(`chk-${p.code}`).checked) continue;
     const qtyVal = document.getElementById(`qty-${p.code}`).value.trim();
-    const qty = parseInt(qtyVal, 10);
+    const qty    = parseInt(qtyVal, 10);
     if (!qtyVal || isNaN(qty) || qty <= 0) {
-      showToast(`Enter a valid quantity for ${p.shortName}.`, true);
+      showToast(`Enter a valid quantity for "${p.shortName}".`, true);
       document.getElementById(`qty-${p.code}`).focus();
       return;
     }
-    const serRaw = document.getElementById(`ser-${p.code}`).value;
+    const serRaw  = document.getElementById(`ser-${p.code}`).value;
     const serials = serRaw.split(',').map(s => s.trim()).filter(Boolean);
     items.push({ ...p, quantity: qty, serials });
   }
@@ -526,17 +786,17 @@ function generate() {
     return;
   }
 
-  const coname   = document.getElementById('coname').value.trim();
-  const shipdate = document.getElementById('shipdate').value;
-  const street   = document.getElementById('street').value.trim();
-  const addr2    = document.getElementById('addr2').value.trim();
-  const city     = document.getElementById('city').value.trim();
-  const state    = document.getElementById('state').value.trim();
-  const zip      = document.getElementById('zip').value.trim();
-  const ponum    = document.getElementById('ponum').value.trim();
-  const podate   = document.getElementById('podate').value;
+  const coname     = document.getElementById('coname').value.trim();
+  const shipdate   = document.getElementById('shipdate').value;
+  const street     = document.getElementById('street').value.trim();
+  const addr2      = document.getElementById('addr2').value.trim();
+  const city       = document.getElementById('city').value.trim();
+  const state      = document.getElementById('state').value.trim();
+  const zip        = document.getElementById('zip').value.trim();
+  const ponum      = document.getElementById('ponum').value.trim();
+  const podate     = document.getElementById('podate').value;
   const includeSig = document.getElementById('includeSig').checked;
-  let fileName   = document.getElementById('fileName').value.trim() || 'Packing_List';
+  let   fileName   = document.getElementById('fileName').value.trim() || 'Packing_List';
   if (!fileName.toLowerCase().endsWith('.pdf')) fileName += '.pdf';
 
   buildPDF({ coname, shipdate, street, addr2, city, state, zip, ponum, podate, includeSig, items, fileName });
@@ -546,77 +806,48 @@ function buildPDF({ coname, shipdate, street, addr2, city, state, zip, ponum, po
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'pt', format: 'letter' });
 
-  const PW = 612, PH = 792;
-  const M = 25; // margin
-
-  // Custom colors (from original)
+  const PW = 612, PH = 792, M = 25;
   const cGreen = [219, 221, 204];
   const cGray  = [48, 48, 48];
 
   // Double border
-  doc.setLineWidth(0.5);
-  doc.setDrawColor(...cGreen);
+  doc.setLineWidth(0.5); doc.setDrawColor(...cGreen);
   doc.rect(M, M, PW - 2*M, PH - 2*M);
   doc.setLineWidth(1.5);
   doc.rect(M-2, M-2, PW - 2*(M-2), PH - 2*(M-2));
 
-  // --- Header area ---
-  // Company name (Nuvve)
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  doc.setTextColor(...cGray);
+  // Nuvve sender block
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(...cGray);
   doc.text('Nuvve Corp', 50, 690);
-
-  doc.setFont('courier', 'normal');
-  doc.setFontSize(7);
+  doc.setFont('courier', 'normal'); doc.setFontSize(7);
   doc.text('2488 Historic Decatur Rd.', 50, 675);
   doc.text('Suite 230, San Diego CA 92106, USA', 50, 660);
   doc.text('619-483-3448', 50, 645);
 
-  // SHIP TO label
-  doc.setFont('times', 'normal');
-  doc.setFontSize(7);
-  doc.setTextColor(80, 80, 80);
+  // Ship to
+  doc.setFont('times', 'normal'); doc.setFontSize(7); doc.setTextColor(80, 80, 80);
   doc.text('SHIP TO:', 300, 690);
-
-  // Recipient
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(12);
-  doc.setTextColor(...cGray);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...cGray);
   doc.text(coname || '—', 340, 690);
-
-  doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
   doc.text(street || '—', 340, 675);
   let addrY = 645;
-  if (addr2) {
-    doc.text(addr2, 340, 660);
-  } else {
-    addrY = 660;
-  }
+  if (addr2) { doc.text(addr2, 340, 660); } else { addrY = 660; }
   const cityLine = [city, state].filter(Boolean).join(', ') + (zip ? ' ' + zip : '');
   doc.text(cityLine || '—', 340, addrY);
 
-  // Shipping date (top right)
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(7);
-  doc.setTextColor(80, 80, 80);
+  // Shipping date
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(80, 80, 80);
   doc.text(`Shipping Date: ${fmtDate(shipdate) || '—'}`, 450, 735);
 
-  // Horizontal rule under header
-  doc.setLineWidth(0.5);
-  doc.setDrawColor(...cGreen);
+  // Divider + title
+  doc.setLineWidth(0.5); doc.setDrawColor(...cGreen);
   doc.line(50, 630, PW - 50, 630);
-
-  // PACKING LIST title
-  doc.setFont('times', 'bold');
-  doc.setFontSize(16);
-  doc.setTextColor(...cGreen);
+  doc.setFont('times', 'bold'); doc.setFontSize(16); doc.setTextColor(...cGreen);
   doc.text('PACKING LIST', PW / 2, 618, { align: 'center' });
 
-  // --- Order Details table ---
+  // Order details table
   let cursorY = 610;
-
   if (ponum || podate) {
     doc.autoTable({
       startY: cursorY - 50,
@@ -624,27 +855,25 @@ function buildPDF({ coname, shipdate, street, addr2, city, state, zip, ponum, po
       body: [[ponum || '—', fmtDate(podate) || '—']],
       margin: { left: 50, right: 50 },
       columnStyles: { 0: { cellWidth: 250 }, 1: { cellWidth: 250 } },
-      headStyles: {
-        fillColor: cGreen, textColor: cGray,
-        fontStyle: 'bold', fontSize: 9, halign: 'center'
-      },
+      headStyles: { fillColor: cGreen, textColor: cGray, fontStyle: 'bold', fontSize: 9, halign: 'center' },
       bodyStyles: { fontSize: 8, halign: 'center', textColor: cGray },
-      tableLineColor: cGray, tableLineWidth: 0.3,
-      theme: 'grid',
+      tableLineColor: cGray, tableLineWidth: 0.3, theme: 'grid',
     });
     cursorY = doc.lastAutoTable.finalY + 12;
   } else {
-    cursorY = cursorY - 30;
+    cursorY -= 30;
   }
 
-  // --- Products table ---
+  // Products table
   const tableBody = [];
   for (const item of items) {
     tableBody.push([item.productCode, item.fullName, String(item.quantity)]);
     if (item.serials.length > 0) {
-      tableBody.push([{ content: 'Serial Numbers', styles: { halign: 'right', fontSize: 7, textColor: [120,120,120] } },
-                      { content: item.serials.join(', '), styles: { fontSize: 7, textColor: [120,120,120] } },
-                      '']);
+      tableBody.push([
+        { content: 'Serial Numbers', styles: { halign: 'right', fontSize: 7, textColor: [120,120,120] } },
+        { content: item.serials.join(', '),  styles: { fontSize: 7, textColor: [120,120,120] } },
+        ''
+      ]);
     }
   }
 
@@ -656,36 +885,24 @@ function buildPDF({ coname, shipdate, street, addr2, city, state, zip, ponum, po
     columnStyles: {
       0: { cellWidth: 150, halign: 'center' },
       1: { cellWidth: 300 },
-      2: { cellWidth: 50, halign: 'center' },
+      2: { cellWidth: 50,  halign: 'center' },
     },
-    headStyles: {
-      fillColor: cGreen, textColor: cGray,
-      fontStyle: 'bold', fontSize: 9, halign: 'center'
-    },
+    headStyles: { fillColor: cGreen, textColor: cGray, fontStyle: 'bold', fontSize: 9, halign: 'center' },
     bodyStyles: { fontSize: 8, textColor: cGray, valign: 'middle' },
-    tableLineColor: cGray, tableLineWidth: 0.3,
-    theme: 'grid',
+    tableLineColor: cGray, tableLineWidth: 0.3, theme: 'grid',
   });
 
-  // --- Signature section ---
+  // Signature section
   if (includeSig) {
     doc.autoTable({
       startY: PH - 100,
       head: [['Received By', 'Signature', 'Received Date']],
       body: [['\n\n', '\n\n', '\n\n']],
       margin: { left: 50, right: 50 },
-      columnStyles: {
-        0: { cellWidth: 200 },
-        1: { cellWidth: 200 },
-        2: { cellWidth: 100 },
-      },
-      headStyles: {
-        fillColor: cGreen, textColor: cGray,
-        fontStyle: 'bold', fontSize: 9, halign: 'center'
-      },
+      columnStyles: { 0: { cellWidth: 200 }, 1: { cellWidth: 200 }, 2: { cellWidth: 100 } },
+      headStyles: { fillColor: cGreen, textColor: cGray, fontStyle: 'bold', fontSize: 9, halign: 'center' },
       bodyStyles: { fontSize: 8, textColor: cGray, halign: 'center' },
-      tableLineColor: cGray, tableLineWidth: 0.3,
-      theme: 'grid',
+      tableLineColor: cGray, tableLineWidth: 0.3, theme: 'grid',
     });
   }
 

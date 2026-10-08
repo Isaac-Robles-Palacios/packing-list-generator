@@ -95,6 +95,7 @@
   .form-grid { display: grid; gap: 16px; }
   .form-grid-2 { grid-template-columns: 1fr 1fr; }
   .form-grid-3 { grid-template-columns: 2fr 1fr 1fr; }
+  .form-grid-3-intl { grid-template-columns: 2fr 1fr 1fr; }
 
   .field { display: flex; flex-direction: column; gap: 5px; }
   label {
@@ -127,6 +128,42 @@
     cursor: not-allowed;
   }
 
+  /* Subsection label */
+  .subsection-label {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    margin-top: 4px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* International toggle */
+  .intl-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .intl-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    background: #e8f0e8;
+    color: var(--accent);
+    border: 1px solid #c3d4c2;
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin-left: 4px;
+    vertical-align: middle;
+    display: none;
+  }
+  .intl-badge.visible { display: inline-block; }
+
   /* CSV Import */
   .csv-zone {
     border: 2px dashed var(--border);
@@ -149,20 +186,9 @@
     width: 100%;
     height: 100%;
   }
-  .csv-icon {
-    font-size: 1.8rem;
-    margin-bottom: 8px;
-    line-height: 1;
-  }
-  .csv-zone-title {
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 4px;
-  }
-  .csv-zone-sub {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-  }
+  .csv-icon { font-size: 1.8rem; margin-bottom: 8px; line-height: 1; }
+  .csv-zone-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
+  .csv-zone-sub { font-size: 0.78rem; color: var(--text-muted); }
   .csv-hint {
     margin-top: 14px;
     font-family: var(--mono);
@@ -174,7 +200,6 @@
     text-align: left;
     display: inline-block;
   }
-
   .csv-result {
     margin-top: 12px;
     padding: 10px 14px;
@@ -182,22 +207,9 @@
     font-size: 0.82rem;
     display: none;
   }
-  .csv-result.success {
-    background: #eef5ee;
-    border: 1px solid #b2d1b2;
-    color: var(--success);
-    display: block;
-  }
-  .csv-result.warn {
-    background: var(--warn-bg);
-    border: 1px solid var(--warn-border);
-    color: var(--warn-text);
-    display: block;
-  }
-  .csv-result ul {
-    margin-top: 6px;
-    padding-left: 18px;
-  }
+  .csv-result.success { background: #eef5ee; border: 1px solid #b2d1b2; color: var(--success); display: block; }
+  .csv-result.warn    { background: var(--warn-bg); border: 1px solid var(--warn-border); color: var(--warn-text); display: block; }
+  .csv-result ul { margin-top: 6px; padding-left: 18px; }
   .csv-result li { margin-top: 3px; }
 
   /* Product rows */
@@ -214,6 +226,17 @@
     color: var(--text-muted);
   }
   .product-col-headers span:nth-child(2) { text-align: center; }
+  .product-group-label {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 10px 10px 4px;
+    margin-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+  .product-group-label:first-child { border-top: none; margin-top: 0; }
 
   .product-row {
     display: grid;
@@ -279,16 +302,8 @@
   .btn:active { transform: scale(0.98); }
   .btn-primary { background: var(--accent); color: #fff; }
   .btn-primary:hover { background: var(--accent-hover); }
-  .btn-sm {
-    font-size: 0.78rem;
-    padding: 6px 14px;
-    font-weight: 500;
-  }
-  .btn-outline {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
-  }
+  .btn-sm { font-size: 0.78rem; padding: 6px 14px; font-weight: 500; }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
   .btn-outline:hover { background: var(--tag-bg); }
 
   .actions-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
@@ -297,12 +312,7 @@
     flex: 1; min-width: 200px;
   }
   .file-name-group label { white-space: nowrap; }
-  .file-ext {
-    font-family: var(--mono);
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
+  .file-ext { font-family: var(--mono); font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; }
 
   /* Toast */
   #toast {
@@ -326,7 +336,7 @@
   .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
 
   @media (max-width: 600px) {
-    .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+    .form-grid-2, .form-grid-3, .form-grid-3-intl { grid-template-columns: 1fr; }
     .product-col-headers { display: none; }
     .product-row { grid-template-columns: 1fr; }
     .qty-input { width: 100%; }
@@ -343,19 +353,72 @@
 
   <!-- Shipping Information -->
   <div class="section">
-    <div class="section-header">Shipping Information</div>
+    <div class="section-header">
+      <span>Shipping Information <span id="intlBadge" class="intl-badge">🌐 International</span></span>
+    </div>
     <div class="section-body">
-      <div class="form-grid form-grid-2" style="margin-bottom:16px;">
-        <div class="field">
-          <label for="coname">Company Name</label>
-          <input type="text" id="coname" placeholder="Recipient company" />
-        </div>
+
+      <!-- International toggle -->
+      <div class="intl-toggle-row">
+        <label class="checkbox-label">
+          <input type="checkbox" id="intlCheck" onchange="toggleInternational()" />
+          International shipment
+        </label>
+      </div>
+
+      <!-- Dates row -->
+      <div class="form-grid form-grid-2" style="margin-bottom:20px;">
         <div class="field">
           <label for="shipdate">Shipping Date</label>
           <input type="date" id="shipdate" />
         </div>
+        <div class="field" style="visibility:hidden;"></div>
       </div>
-      <div class="form-grid form-grid-2" style="margin-bottom:16px;">
+
+      <!-- Origin address -->
+      <div class="subsection-label">Origin Address</div>
+      <div class="form-grid form-grid-2" style="margin-bottom:10px;">
+        <div class="field">
+          <label for="origCompany">Company Name</label>
+          <input type="text" id="origCompany" placeholder="Nuvve Corp" />
+        </div>
+        <div class="field" style="visibility:hidden;"></div>
+      </div>
+      <div class="form-grid form-grid-2" style="margin-bottom:10px;">
+        <div class="field">
+          <label for="origStreet">Street Address</label>
+          <input type="text" id="origStreet" placeholder="2488 Historic Decatur Rd." />
+        </div>
+        <div class="field">
+          <label for="origAddr2">Address Line 2</label>
+          <input type="text" id="origAddr2" placeholder="Suite 230 (optional)" />
+        </div>
+      </div>
+      <div class="form-grid form-grid-3" style="margin-bottom:20px;">
+        <div class="field">
+          <label for="origCity">City</label>
+          <input type="text" id="origCity" placeholder="San Diego" />
+        </div>
+        <div class="field">
+          <label for="origState">State</label>
+          <input type="text" id="origState" placeholder="CA" />
+        </div>
+        <div class="field">
+          <label for="origZip">Zip Code</label>
+          <input type="text" id="origZip" placeholder="92106" maxlength="10" />
+        </div>
+      </div>
+
+      <!-- Destination address -->
+      <div class="subsection-label">Destination Address</div>
+      <div class="form-grid form-grid-2" style="margin-bottom:10px;">
+        <div class="field">
+          <label for="coname">Company Name</label>
+          <input type="text" id="coname" placeholder="Recipient company" />
+        </div>
+        <div class="field" style="visibility:hidden;"></div>
+      </div>
+      <div class="form-grid form-grid-2" style="margin-bottom:10px;">
         <div class="field">
           <label for="street">Street Address</label>
           <input type="text" id="street" placeholder="123 Main St" />
@@ -365,7 +428,9 @@
           <input type="text" id="addr2" placeholder="Suite, unit, etc. (optional)" />
         </div>
       </div>
-      <div class="form-grid form-grid-3">
+
+      <!-- Domestic address row -->
+      <div id="domesticFields" class="form-grid form-grid-3">
         <div class="field">
           <label for="city">City</label>
           <input type="text" id="city" placeholder="City" />
@@ -379,6 +444,29 @@
           <input type="text" id="zip" placeholder="92106" maxlength="10" />
         </div>
       </div>
+
+      <!-- International address row (hidden by default) -->
+      <div id="internationalFields" class="form-grid form-grid-3-intl" style="display:none;">
+        <div class="field">
+          <label for="intlCity">City</label>
+          <input type="text" id="intlCity" placeholder="City" />
+        </div>
+        <div class="field">
+          <label for="intlRegion">State / Province / Region</label>
+          <input type="text" id="intlRegion" placeholder="Region (optional)" />
+        </div>
+        <div class="field">
+          <label for="intlPostal">Postal Code</label>
+          <input type="text" id="intlPostal" placeholder="Postal code" maxlength="12" />
+        </div>
+      </div>
+      <div id="countryField" class="form-grid form-grid-2" style="display:none; margin-top:10px;">
+        <div class="field">
+          <label for="intlCountry">Country</label>
+          <input type="text" id="intlCountry" placeholder="Country" />
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -470,121 +558,127 @@
 
 <script>
 // ─── Product catalogue ────────────────────────────────────────────────────────
-// Add or remove products here. Each entry needs:
-//   code        – internal key (unique, no spaces)
-//   productCode – the code printed on the PDF
-//   shortName   – shown in the UI checkbox list
-//   fullName    – shown in the PDF description column
-//   aliases     – extra strings a CSV "Product Name" might use (lowercase)
+// group: used to visually separate product categories in the UI
 const PRODUCTS = [
-  // EV Chargers
+  // EV Chargers – AC
   {
-    code: "001", productCode: "EVSE-B-P1-T1C-H1 A080",
+    code: "001", productCode: "EVSE-B-P1-T1C-H1 A080", group: "AC Chargers",
     shortName: "PowerPort 2.2 (1PH)", fullName: "PowerPort 2.2 Single Phase",
     aliases: ["powerport 2.2 single phase", "powerport 2.2 1ph", "evse-b-p1-t1c-h1 a080"]
   },
   {
-    code: "002", productCode: "EVSE-B-P3-T2C-H1 A063",
+    code: "002", productCode: "EVSE-B-P3-T2C-H1 A063", group: "AC Chargers",
     shortName: "PowerPort 2.2 (3PH)", fullName: "PowerPort 2.2 Three Phase",
     aliases: ["powerport 2.2 three phase", "powerport 2.2 3ph", "evse-b-p3-t2c-h1 a063"]
   },
+  // DC PCS
+  {
+    code: "101", productCode: "RES-HD60-V2G", group: "DC Power Conversion Systems",
+    shortName: "PCS Nuvve Rhombus 60kW DC", fullName: "PCS Nuvve Rhombus 60kW DC",
+    aliases: ["pcs nuvve rhombues 60kw dc", "pcs nuvve rhombus 60kw dc", "res-hd60-v2g", "rhombus 60kw"]
+  },
+  {
+    code: "102", productCode: "RES-HD125-V2G", group: "DC Power Conversion Systems",
+    shortName: "PCS Nuvve Rhombus 125kW DC", fullName: "PCS Nuvve Rhombus 125kW DC",
+    aliases: ["pcs nuvve rhombus 125kw dc", "res-hd125-v2g", "rhombus 125kw"]
+  },
+  {
+    code: "103", productCode: "CHLL-RES-F125", group: "DC Power Conversion Systems",
+    shortName: "Chiller Unit (for 125kW PCS)", fullName: "Chiller Unit (for 125kW PCS)",
+    aliases: ["chiller unit", "chll-res-f125", "chiller unit for 125kw pcs", "chiller"]
+  },
+  // Dispensers
+  {
+    code: "104", productCode: "DISP-RES-CCS-GEN3", group: "Dispensers",
+    shortName: "Dispenser Rhombus GEN3 (CCS)", fullName: "Dispenser Rhombus GEN3 (CCS)",
+    aliases: ["dispenser rhombus gen3", "dispenser rhombus gen3 ccs", "disp-res-ccs-gen3", "ccs gen3 dispenser"]
+  },
+  {
+    code: "105", productCode: "ASSY-DISP-GEN3-PED", group: "Dispensers",
+    shortName: "Dispenser Pedestal Assembly", fullName: "Dispenser Pedestal Assembly",
+    aliases: ["dispenser pedestal assembly", "assy-disp-gen3-ped", "dispenser pedestal"]
+  },
+  {
+    code: "106", productCode: "ASSY-DISP-GEN3-CBL", group: "Dispensers",
+    shortName: "Dispenser Cable Assembly", fullName: "Dispenser Cable Assembly",
+    aliases: ["dispenser cable assembly", "assy-disp-gen3-cbl", "dispenser cable"]
+  },
   // Pedestals
   {
-    code: "003", productCode: "SM-Pedestal",
+    code: "003", productCode: "SM-Pedestal", group: "Pedestals",
     shortName: "Single Mount Pedestal", fullName: "Single Mount Pedestal - for one PowerPort",
     aliases: ["single mount pedestal", "sm-pedestal", "sm pedestal"]
   },
   {
-    code: "004", productCode: "DM-Pedestal",
+    code: "004", productCode: "DM-Pedestal", group: "Pedestals",
     shortName: "Dual Mount Pedestal", fullName: "Dual Mount Pedestal - for two PowerPorts",
     aliases: ["dual mount pedestal", "dm-pedestal", "dm pedestal"]
   },
   // Cables
   {
-    code: "005", productCode: "CBL-NV-PP-J1772-25",
+    code: "005", productCode: "CBL-NV-PP-J1772-25", group: "Cables",
     shortName: "J1772 Cable (25ft)", fullName: "J1772 Charging Hose 25 ft.",
     aliases: ["j1772 cable 25ft", "j1772 charging hose 25 ft", "j1772 25ft", "cbl-nv-pp-j1772-25"]
   },
+  // WiFi
   {
-    code: "013", productCode: "CBL-NV-PP-J1772-15",
-    shortName: "J1772 Cable (15ft)", fullName: "J1772 Charging Hose 15 ft.",
-    aliases: ["j1772 cable 15ft", "j1772 charging hose 15 ft", "j1772 15ft", "cbl-nv-pp-j1772-15"]
-  },
-  // WiFi – Loco series
-  {
-    code: "006", productCode: "UNS-NSM2-loco",
+    code: "006", productCode: "UNS-NSM2-loco", group: "WiFi Antennas",
     shortName: "Loco M2 Wifi (Single 2.4GHz)", fullName: "2.4GHz Single Port WIFI Antenna + POE Adapter",
     aliases: ["loco m2 wifi", "loco m2", "uns-nsm2-loco", "2.4ghz single port wifi antenna"]
   },
   {
-    code: "007", productCode: "UNS-NSM5-loco",
+    code: "007", productCode: "UNS-NSM5-loco", group: "WiFi Antennas",
     shortName: "Loco M5 Wifi (Single 5.0GHz)", fullName: "5.0GHz Single Port WIFI Antenna + POE Adapter",
     aliases: ["loco m5 wifi", "loco m5", "uns-nsm5-loco", "5.0ghz single port wifi antenna"]
   },
-  // WiFi – NSM series
   {
-    code: "008", productCode: "UNS-NSM2",
+    code: "008", productCode: "UNS-NSM2", group: "WiFi Antennas",
     shortName: "NSM2 Wifi (Dual 2.4GHz)", fullName: "2.4GHz Dual Port WIFI Antenna + POE Adapter",
     aliases: ["nsm2 wifi", "nsm2", "uns-nsm2", "2.4ghz dual port wifi antenna"]
   },
   {
-    code: "009", productCode: "UNS-NSM5",
+    code: "009", productCode: "UNS-NSM5", group: "WiFi Antennas",
     shortName: "NSM5 Wifi (Dual 5.0GHz)", fullName: "5.0GHz Dual Port WIFI Antenna + POE Adapter",
     aliases: ["nsm5 wifi", "nsm5", "uns-nsm5", "5.0ghz dual port wifi antenna"]
   },
-  // TP-Link
   {
-    code: "010", productCode: "PHAROS-CPE-210",
-    shortName: "TP-Link 210 (Single)", fullName: "2.4GHz Single Port WIFI Antenna",
+    code: "010", productCode: "PHAROS-CPE-210", group: "WiFi Antennas",
+    shortName: "TP-Link 210 (Single 2.4GHz)", fullName: "2.4GHz Single Port WIFI Antenna",
     aliases: ["tp-link 210", "pharos cpe 210", "pharos-cpe-210", "tp link 210"]
   },
+  // Accessories
   {
-    code: "014", productCode: "PHAROS-CPE-510",
-    shortName: "TP-Link 510 (Single 5GHz)", fullName: "5GHz Single Port WIFI Antenna",
-    aliases: ["tp-link 510", "pharos cpe 510", "pharos-cpe-510", "tp link 510"]
-  },
-  // Mounts & Accessories
-  {
-    code: "011", productCode: "WIFI-MOUNT",
+    code: "011", productCode: "WIFI-MOUNT", group: "Accessories",
     shortName: "Wifi Mount", fullName: "Wall/Pedestal Mounting Kit for WIFI Antenna",
     aliases: ["wifi mount", "wifi-mount", "mounting kit", "antenna mount"]
   },
   // Comms
   {
-    code: "012", productCode: "4G-LTE-COMMS-BOX",
+    code: "012", productCode: "4G-LTE-COMMS-BOX", group: "Communications",
     shortName: "4G LTE Modem", fullName: "4G LTE Modem with SIM Card",
     aliases: ["4g lte modem", "4g-lte-comms-box", "lte modem", "4g modem"]
   },
-  {
-    code: "015", productCode: "5G-COMMS-BOX",
-    shortName: "5G Modem", fullName: "5G Modem with SIM Card",
-    aliases: ["5g modem", "5g-comms-box", "5g communications box"]
-  },
-  // Power accessories
-  {
-    code: "016", productCode: "POE-INJECTOR-48V",
-    shortName: "POE Injector (48V)", fullName: "48V POE Injector",
-    aliases: ["poe injector 48v", "poe injector", "48v poe injector", "poe-injector-48v"]
-  },
-  {
-    code: "017", productCode: "SURGE-PROTECTOR-DIN",
-    shortName: "DIN Rail Surge Protector", fullName: "DIN Rail Surge Protector",
-    aliases: ["din rail surge protector", "surge protector din", "surge-protector-din", "surge protector"]
-  },
 ];
 
-// Build a lookup map: lowercased alias → product code
+// Build alias lookup map
 const ALIAS_MAP = {};
 PRODUCTS.forEach(p => {
-  // index by short name, full name, product code, and explicit aliases
   [p.shortName, p.fullName, p.productCode, ...p.aliases].forEach(alias => {
     ALIAS_MAP[alias.toLowerCase().trim()] = p.code;
   });
 });
 
-// ─── Build product rows ───────────────────────────────────────────────────────
+// ─── Build product rows grouped by category ───────────────────────────────────
 const list = document.getElementById('productList');
+let currentGroup = null;
 PRODUCTS.forEach(p => {
+  if (p.group !== currentGroup) {
+    currentGroup = p.group;
+    const groupEl = document.createElement('div');
+    groupEl.className = 'product-group-label';
+    groupEl.textContent = p.group;
+    list.appendChild(groupEl);
+  }
   const row = document.createElement('div');
   row.className = 'product-row';
   row.id = `row-${p.code}`;
@@ -603,12 +697,28 @@ PRODUCTS.forEach(p => {
   list.appendChild(row);
 });
 
+// ─── International toggle ─────────────────────────────────────────────────────
+function toggleInternational() {
+  const isIntl = document.getElementById('intlCheck').checked;
+  document.getElementById('domesticFields').style.display    = isIntl ? 'none' : '';
+  document.getElementById('internationalFields').style.display = isIntl ? '' : 'none';
+  document.getElementById('countryField').style.display       = isIntl ? '' : 'none';
+  document.getElementById('intlBadge').classList.toggle('visible', isIntl);
+
+  // Sync city value between domestic/international if user switches back and forth
+  if (isIntl) {
+    document.getElementById('intlCity').value = document.getElementById('city').value;
+  } else {
+    document.getElementById('city').value = document.getElementById('intlCity').value;
+  }
+}
+
 // ─── Row helpers ──────────────────────────────────────────────────────────────
 function toggleRow(code) {
   const checked = document.getElementById(`chk-${code}`).checked;
   const row = document.getElementById(`row-${code}`);
-  const qty  = document.getElementById(`qty-${code}`);
-  const ser  = document.getElementById(`ser-${code}`);
+  const qty = document.getElementById(`qty-${code}`);
+  const ser = document.getElementById(`ser-${code}`);
   qty.disabled = !checked;
   ser.disabled = !checked;
   row.classList.toggle('active', checked);
@@ -627,9 +737,14 @@ function clearProducts() {
 
 function clearAll() {
   clearProducts();
-  ['coname','shipdate','street','addr2','city','state','zip','ponum','podate','fileName']
+  ['coname','shipdate','street','addr2','city','state','zip',
+   'origCompany','origStreet','origAddr2','origCity','origState','origZip',
+   'intlCity','intlRegion','intlPostal','intlCountry',
+   'ponum','podate','fileName']
     .forEach(id => { document.getElementById(id).value = ''; });
   document.getElementById('includeSig').checked = false;
+  document.getElementById('intlCheck').checked = false;
+  toggleInternational();
 }
 
 // ─── CSV Import ───────────────────────────────────────────────────────────────
@@ -662,37 +777,25 @@ function handleCsvFile(file) {
 
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
-  if (lines.length < 2) {
-    showCsvResult('warn', 'The CSV file appears to be empty.');
-    return;
-  }
+  if (lines.length < 2) { showCsvResult('warn', 'The CSV file appears to be empty.'); return; }
 
-  // Detect header row
   const rawHeaders = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/^"|"$/g, ''));
   const productCol = rawHeaders.findIndex(h => h.includes('product'));
   const serialCol  = rawHeaders.findIndex(h => h.includes('serial'));
 
   if (productCol === -1 || serialCol === -1) {
-    showCsvResult('warn',
-      'Could not find required columns. Make sure the CSV has a <strong>Product Name</strong> column and a <strong>Serial Number</strong> column.');
+    showCsvResult('warn', 'Could not find required columns. Make sure the CSV has a <strong>Product Name</strong> column and a <strong>Serial Number</strong> column.');
     return;
   }
 
-  // Group serials by matched product code
-  const matched   = {};   // code → [serials]
-  const unmatched = [];   // rows we couldn't recognise
-
+  const matched = {}, unmatched = [];
   for (let i = 1; i < lines.length; i++) {
     const cols = splitCSVLine(lines[i]);
     const rawProduct = (cols[productCol] || '').trim();
     const serial     = (cols[serialCol]  || '').trim();
     if (!rawProduct) continue;
-
     const code = ALIAS_MAP[rawProduct.toLowerCase()];
-    if (!code) {
-      unmatched.push(rawProduct);
-      continue;
-    }
+    if (!code) { unmatched.push(rawProduct); continue; }
     if (!matched[code]) matched[code] = [];
     if (serial) matched[code].push(serial);
   }
@@ -702,10 +805,7 @@ function parseCSV(text) {
     return;
   }
 
-  // Apply to form
-  // First clear existing selections so the import is the source of truth
   clearProducts();
-
   Object.entries(matched).forEach(([code, serials]) => {
     const chk = document.getElementById(`chk-${code}`);
     if (!chk) return;
@@ -715,7 +815,6 @@ function parseCSV(text) {
     document.getElementById(`ser-${code}`).value = serials.join(', ');
   });
 
-  // Build result message
   const matchedNames = Object.keys(matched).map(c => PRODUCTS.find(p => p.code === c)?.shortName);
   let html = `<strong>✓ Import complete.</strong> ${matchedNames.length} product type(s) loaded.`;
   if (unmatched.length) {
@@ -729,7 +828,6 @@ function parseCSV(text) {
   }
 }
 
-// Handles quoted CSV fields
 function splitCSVLine(line) {
   const result = [];
   let cur = '', inQuote = false;
@@ -780,29 +878,42 @@ function generate() {
     const serials = serRaw.split(',').map(s => s.trim()).filter(Boolean);
     items.push({ ...p, quantity: qty, serials });
   }
+  if (items.length === 0) { showToast('Select at least one product.', true); return; }
 
-  if (items.length === 0) {
-    showToast('Select at least one product.', true);
-    return;
-  }
+  const isIntl = document.getElementById('intlCheck').checked;
 
-  const coname     = document.getElementById('coname').value.trim();
+  // Origin — use entered values or fall back to Nuvve defaults
+  const origCompany = document.getElementById('origCompany').value.trim() || 'Nuvve Corp';
+  const origStreet  = document.getElementById('origStreet').value.trim()  || '2488 Historic Decatur Rd.';
+  const origAddr2   = document.getElementById('origAddr2').value.trim()   || 'Suite 230';
+  const origCity    = document.getElementById('origCity').value.trim()    || 'San Diego';
+  const origState   = document.getElementById('origState').value.trim()   || 'CA';
+  const origZip     = document.getElementById('origZip').value.trim()     || '92106';
+
+  // Destination
+  const coname   = document.getElementById('coname').value.trim();
+  const street   = document.getElementById('street').value.trim();
+  const addr2    = document.getElementById('addr2').value.trim();
+  const city     = isIntl ? document.getElementById('intlCity').value.trim()    : document.getElementById('city').value.trim();
+  const region   = isIntl ? document.getElementById('intlRegion').value.trim()  : document.getElementById('state').value.trim();
+  const postal   = isIntl ? document.getElementById('intlPostal').value.trim()  : document.getElementById('zip').value.trim();
+  const country  = isIntl ? document.getElementById('intlCountry').value.trim() : 'USA';
+
   const shipdate   = document.getElementById('shipdate').value;
-  const street     = document.getElementById('street').value.trim();
-  const addr2      = document.getElementById('addr2').value.trim();
-  const city       = document.getElementById('city').value.trim();
-  const state      = document.getElementById('state').value.trim();
-  const zip        = document.getElementById('zip').value.trim();
   const ponum      = document.getElementById('ponum').value.trim();
   const podate     = document.getElementById('podate').value;
   const includeSig = document.getElementById('includeSig').checked;
   let   fileName   = document.getElementById('fileName').value.trim() || 'Packing_List';
   if (!fileName.toLowerCase().endsWith('.pdf')) fileName += '.pdf';
 
-  buildPDF({ coname, shipdate, street, addr2, city, state, zip, ponum, podate, includeSig, items, fileName });
+  buildPDF({ origCompany, origStreet, origAddr2, origCity, origState, origZip,
+             coname, street, addr2, city, region, postal, country, isIntl,
+             shipdate, ponum, podate, includeSig, items, fileName });
 }
 
-function buildPDF({ coname, shipdate, street, addr2, city, state, zip, ponum, podate, includeSig, items, fileName }) {
+function buildPDF({ origCompany, origStreet, origAddr2, origCity, origState, origZip,
+                    coname, street, addr2, city, region, postal, country, isIntl,
+                    shipdate, ponum, podate, includeSig, items, fileName }) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'pt', format: 'letter' });
 
@@ -816,15 +927,19 @@ function buildPDF({ coname, shipdate, street, addr2, city, state, zip, ponum, po
   doc.setLineWidth(1.5);
   doc.rect(M-2, M-2, PW - 2*(M-2), PH - 2*(M-2));
 
-  // Nuvve sender block
+  // ── Origin / sender block ──
   doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(...cGray);
-  doc.text('Nuvve Corp', 50, 690);
+  doc.text(origCompany, 50, 690);
   doc.setFont('courier', 'normal'); doc.setFontSize(7);
-  doc.text('2488 Historic Decatur Rd.', 50, 675);
-  doc.text('Suite 230, San Diego CA 92106, USA', 50, 660);
-  doc.text('619-483-3448', 50, 645);
+  doc.text(origStreet, 50, 675);
+  if (origAddr2) {
+    doc.text(origAddr2, 50, 660);
+    doc.text(`${origCity}, ${origState} ${origZip}`, 50, 645);
+  } else {
+    doc.text(`${origCity}, ${origState} ${origZip}`, 50, 660);
+  }
 
-  // Ship to
+  // ── Destination block ──
   doc.setFont('times', 'normal'); doc.setFontSize(7); doc.setTextColor(80, 80, 80);
   doc.text('SHIP TO:', 300, 690);
   doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...cGray);
@@ -833,12 +948,22 @@ function buildPDF({ coname, shipdate, street, addr2, city, state, zip, ponum, po
   doc.text(street || '—', 340, 675);
   let addrY = 645;
   if (addr2) { doc.text(addr2, 340, 660); } else { addrY = 660; }
-  const cityLine = [city, state].filter(Boolean).join(', ') + (zip ? ' ' + zip : '');
-  doc.text(cityLine || '—', 340, addrY);
+  // City / region / postal line
+  const cityParts = [city, region].filter(Boolean).join(', ') + (postal ? ' ' + postal : '');
+  doc.text(cityParts || '—', 340, addrY);
+  // Country line (always shown for international, omitted for domestic USA)
+  if (isIntl && country) {
+    doc.text(country.toUpperCase(), 340, addrY - 15);
+  }
 
-  // Shipping date
+  // Shipping date + international flag
   doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(80, 80, 80);
   doc.text(`Shipping Date: ${fmtDate(shipdate) || '—'}`, 450, 735);
+  if (isIntl) {
+    doc.setTextColor(...cGreen);
+    doc.text('INTERNATIONAL SHIPMENT', 450, 725);
+    doc.setTextColor(80, 80, 80);
+  }
 
   // Divider + title
   doc.setLineWidth(0.5); doc.setDrawColor(...cGreen);
@@ -846,7 +971,7 @@ function buildPDF({ coname, shipdate, street, addr2, city, state, zip, ponum, po
   doc.setFont('times', 'bold'); doc.setFontSize(16); doc.setTextColor(...cGreen);
   doc.text('PACKING LIST', PW / 2, 618, { align: 'center' });
 
-  // Order details table
+  // ── Order details table ──
   let cursorY = 610;
   if (ponum || podate) {
     doc.autoTable({
@@ -864,14 +989,14 @@ function buildPDF({ coname, shipdate, street, addr2, city, state, zip, ponum, po
     cursorY -= 30;
   }
 
-  // Products table
+  // ── Products table ──
   const tableBody = [];
   for (const item of items) {
     tableBody.push([item.productCode, item.fullName, String(item.quantity)]);
     if (item.serials.length > 0) {
       tableBody.push([
         { content: 'Serial Numbers', styles: { halign: 'right', fontSize: 7, textColor: [120,120,120] } },
-        { content: item.serials.join(', '),  styles: { fontSize: 7, textColor: [120,120,120] } },
+        { content: item.serials.join(', '), styles: { fontSize: 7, textColor: [120,120,120] } },
         ''
       ]);
     }
@@ -892,7 +1017,7 @@ function buildPDF({ coname, shipdate, street, addr2, city, state, zip, ponum, po
     tableLineColor: cGray, tableLineWidth: 0.3, theme: 'grid',
   });
 
-  // Signature section
+  // ── Signature section ──
   if (includeSig) {
     doc.autoTable({
       startY: PH - 100,

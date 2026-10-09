@@ -349,6 +349,7 @@
   <header class="app-header">
     <h1 class="app-title">Packing List Generator</h1>
     <span class="app-subtitle">Nuvve Corp</span>
+    <span style="margin-left:auto;font-size:0.72rem;font-family:var(--mono);color:var(--text-muted);background:var(--tag-bg);padding:3px 8px;border-radius:4px;align-self:center;">v4</span>
   </header>
 
   <!-- Shipping Information -->
@@ -967,30 +968,39 @@ async function buildPDF({ origCompany, origStreet, origAddr2, origCity, origStat
     doc.text('✦ INTERNATIONAL SHIPMENT', 50, ly);
   }
 
-  // Top-right: shipping date
+  // ── Right column: shipping date + ship-to (x=310, max width to PW-50=562) ──
+  const RX = 310;   // left edge of right column
+  const RW = PW - 50 - RX;  // available width (~252pt)
+  let ry = 40;
+
+  // Shipping date — top right, small
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(80, 80, 80);
-  doc.text(`Shipping Date: ${fmtDate(shipdate) || '—'}`, PW - 50, 40, { align: 'right' });
+  doc.text(`Shipping Date: ${fmtDate(shipdate) || '—'}`, RX + RW, ry, { align: 'right' });
+  ry += 12;
 
-  // Ship-to block: right-centre (x=300, starting at y=40)
-  let ry = 40;
+  // SHIP TO label
   doc.setFont('times', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(100, 100, 100);
-  doc.text('SHIP TO:', 300, ry); ry += 14;
+  doc.text('SHIP TO:', RX, ry); ry += 12;
 
+  // Company name — clamp to RW to avoid overflow
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(11);
+  doc.setFontSize(10);
   doc.setTextColor(...cGray);
-  doc.text(coname || '—', 300, ry); ry += 14;
+  const cnameLines = doc.splitTextToSize(coname || '—', RW);
+  doc.text(cnameLines, RX, ry); ry += cnameLines.length * 13;
 
-  doc.setFontSize(9);
-  doc.text(street || '—', 300, ry); ry += 12;
-  if (addr2) { doc.text(addr2, 300, ry); ry += 12; }
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  const streetLines = doc.splitTextToSize(street || '—', RW);
+  doc.text(streetLines, RX, ry); ry += streetLines.length * 11;
+  if (addr2) { const a2 = doc.splitTextToSize(addr2, RW); doc.text(a2, RX, ry); ry += a2.length * 11; }
   const cityParts = [city, region].filter(Boolean).join(', ') + (postal ? ' ' + postal : '');
-  doc.text(cityParts || '—', 300, ry); ry += 12;
-  if (isIntl && country) { doc.text(country.toUpperCase(), 300, ry); ry += 12; }
+  if (cityParts) { doc.text(cityParts, RX, ry); ry += 11; }
+  if (isIntl && country) { doc.text(country.toUpperCase(), RX, ry); ry += 11; }
 
   // ── Divider line + PACKING LIST title ──
   const headerBottom = Math.max(ly, ry) + 16;  // whichever column is taller + padding

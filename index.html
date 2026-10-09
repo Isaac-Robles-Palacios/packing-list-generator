@@ -349,7 +349,7 @@
   <header class="app-header">
     <h1 class="app-title">Packing List Generator</h1>
     <span class="app-subtitle">Nuvve Corp</span>
-    <span style="margin-left:auto;font-size:0.72rem;font-family:var(--mono);color:var(--text-muted);background:var(--tag-bg);padding:3px 8px;border-radius:4px;align-self:center;">v4</span>
+    <span style="margin-left:auto;font-size:0.72rem;font-family:var(--mono);color:var(--text-muted);background:var(--tag-bg);padding:3px 8px;border-radius:4px;align-self:center;">v5</span>
   </header>
 
   <!-- Shipping Information -->
@@ -965,7 +965,7 @@ async function buildPDF({ origCompany, origStreet, origAddr2, origCity, origStat
   if (isIntl) {
     doc.setFont('helvetica', 'bold'); doc.setFontSize(7.5);
     doc.setTextColor(...cAccent);
-    doc.text('✦ INTERNATIONAL SHIPMENT', 50, ly);
+    doc.text('>> INTERNATIONAL SHIPMENT', 50, ly);
   }
 
   // ── Right column: shipping date + ship-to (x=310, max width to PW-50=562) ──
